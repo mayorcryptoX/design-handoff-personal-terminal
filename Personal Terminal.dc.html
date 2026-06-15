@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet">
+<style>
+  *{ box-sizing:border-box; }
+  body{ margin:0; }
+  ::-webkit-scrollbar{ width:0; height:0; }
+  @keyframes ptFade{ from{ opacity:0; transform:translateY(8px);} to{ opacity:1; transform:translateY(0);} }
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(140% 120% at 50% 0%, #D6D4CC 0%, #BFBDB4 60%);padding:28px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
+<x-import component="AndroidDevice" from="./android-frame.jsx" dark="{{ false }}" hint-size="412px,892px">
+
+<div style="height:100%;display:flex;flex-direction:column;background:#EAE8E1;color:#141414;overflow:hidden;">
+
+  <div style="flex:1;overflow-y:auto;overflow-x:hidden;">
+
+  <!-- ================= HOME ================= -->
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <div style="padding:22px 18px 28px;animation:ptFade .28s ease;">
+    <div style="font-family:'Geist Mono',monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#9b998f;">Good morning{{ greetSep }}{{ userNameOut }}</div>
+    <div style="font-size:26px;font-weight:600;letter-spacing:-0.02em;margin-top:4px;">Sunday · June 14</div>
+
+    <!-- net hero -->
+    <div style="margin-top:20px;background:#FFFFFF;border:1px solid rgba(0,0,0,0.12);border-radius:20px;padding:20px;position:relative;overflow:hidden;">
+      <div style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:#9b998f;">Net this month</div>
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-top:6px;">
+        <div style="font-family:'Geist Mono',monospace;font-size:38px;font-weight:500;letter-spacing:-0.02em;color:{{ netHomeColor }};">{{ netHome }}</div>
+        <svg viewBox="0 0 120 40" width="120" height="40" preserveAspectRatio="none" style="flex-shrink:0;margin-bottom:6px;">
+          <polyline points="{{ spark }}" fill="none" stroke="{{ netHomeColor }}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></polyline>
+        </svg>
+      </div>
+      <div style="display:flex;gap:16px;margin-top:10px;font-size:12.5px;color:#6e6d66;font-family:'Geist Mono',monospace;">
+        <span>IN {{ incText }}</span>
+        <span style="color:#cdcbc2;">/</span>
+        <span>OUT {{ expText }}</span>
+      </div>
+    </div>
+
+    <!-- quick stats -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px;">
+      <div style="background:#FFFFFF;border:1px solid rgba(0,0,0,0.12);border-radius:16px;padding:14px 12px;">
+        <span style="font-family:'Material Symbols Rounded';font-size:20px;line-height:1;color:#141414;font-feature-settings:'liga';">local_fire_department</span>
+        <div style="font-family:'Geist Mono',monospace;font-size:22px;font-weight:500;margin-top:8px;">{{ streakDays }}</div>
+        <div style="font-size:11px;color:#9b998f;margin-top:2px;">day streak</div>
+      </div>
+      <div style="background:#FFFFFF;border:1px solid rgba(0,0,0,0.12);border-radius:16px;padding:14px 12px;">
+        <span style="font-family:'Material Symbols Rounded';font-size:20px;line-height:1;color:#141414;font-feature-settings:'liga';">military_tech</span>
+        <div style="font-family:'Geist Mono',monospace;font-size:22px;font-weight:500;margin-top:8px;">{{ winRateText }}</div>
+        <div style="font-size:11px;color:#9b998f;margin-top:2px;">win rate</div>
+      </div>
+      <div style="background:#FFFFFF;border:1px solid rgba(0,0,0,0.12);border-radius:16px;padding:14px 12px;">
+        <span style="font-family:'Material Symbols Rounded';font-size:20px;line-height:1;color:#141414;font-feature-settings:'liga';">payments</span>
+        <div style="font-family:'Geist Mono',monospace;font-size:22px;font-weight:500;margin-top:8px;color:{{ tradePnlColor }};">{{ tradePnlText }}</div>
+        <div style="font-size:11px;color:#9b998f;margin-top:2px;">trading P&L</div>
+      </div>
+    </div>
+
+    <!-- week consistency -->
+    <div style="margin-top:12px;background:#FFFFFF;border:1px solid rgba(0,0,0,0.12);border-radius:16px;padding:16px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:#9b998f;">This week</span>
+        <span style="font-size:12px;color:#6e6d66;">5 / 7 sessions</span>
+      </div>
+      <div style="display:flex;justify-content:space-between;gap:6px;margin-top:14px;">
+        <sc-for list="{{ weekDots }}" as="w" hint-placeholder-count="7">
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;">
+            <div style="width:30px;height:30px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:{{ w.bg }};border:1.5px solid {{ w.border }};">
+              <span style="font-family:'Material Symbols Rounded';font-size:16px;color:{{ w.color }};font-feature-settings:'liga';">{{ w.icon }}</span>
+            </div>
+            <span style="font-size:10px;color:#9b998f;font-family:'Geist Mono',monospace;">{{ w.d }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- recent activity -->
+    <div style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:#9b998f;margin:22px 2px 10px;">Recent activity</div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <sc-for list="{{ feed }}" as="f" hint-placeholder-count="3">
+        <div style="display:flex;align-items:center;gap:13px;background:#FFFFFF;border:1px solid rgba(0,0,0,0.12);border-radius:14px;padding:13px 14px;">
+          <div style="width:38px;height:38px;border-radius:11px;background:{{ f.accentBg }};display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <span style="font-family:'Material Symbols Rounded';font-size:20px;color:{{ f.accent }};font-feature-settings:'liga';">{{ f.icon }}</span>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:14.5px;font-weight:600;">{{ f.title }}</div>
+            <div style="font-size:12px;color:#9b998f;margin-top:1px;">{{ f.sub }}</div>
+          </div>
+          <div style="font-family:'Geist Mono',monospace;font-size:14px;font-weight:500;color:{{ f.rightColor }};">{{ f.right }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ================= MONEY ================= -->
+  <sc-if value="{{ isMoney }}">
+  <div style="padding:22px 18px 28px;animation:ptFade .28s ease;">
+    <div style="display:flex;align-items:center;justify-content:space-between;">
+      <div style="font-size:24px;font-weight:600;letter-spacing:-0.02em;">Money</div>
+      <div style="display:flex;align-items:center;gap:4px;background:#FFFFFF;border:1px solid rgba(0,0,0,0.12);border-radius:12px;padding:4px;">
+        <button onClick="{{ prevMonth }}" style="width:30px;height:30px;border:none;background:none;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+          <span style="font-family:'Material Symbols Rounded';font-size:20px;color:#6e6d66;font-feature-settings:'liga';">chevron_left</span>
+        </button>
+        <span style="font-family:'Geist Mono',monospace;font-size:13px;color:#141414;min-width:74px;text-align:center;">{{ monthLabel }}</span>
+        <button onClick="{{ nextMonth }}" style="width:30px;height:30px;border:none;background:none;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+          <span style="font-family:'Material Symbols Rounded';font-size:20px;color:#6e6d66;font-feature-settings:'liga';">chevron_right</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- P&L hero -->
+    <div style="margin-top:18px;background:#FFFFFF;border:1px solid rgba(0,0,0,0.12);border-radius:20px;padding:20px;">
+      <div style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:#9b998f;">Net profit / loss</div>
+      <div style="font-family:'Geist Mono',monospace;font-size:40px;font-weight:500;letter-spacing:-0.02em;color:{{ netColor }};margin-top:4px;">{{ netText }}</div>
+
+      <div style="margin-top:18px;display:flex;flex-direction:column;gap:14px;">
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:7px;">
+            <span style="color:#6e6d66;">Income</span>
+            <span style="font-family:'Geist Mono',monospace;color:#141414;">{{ incText }}</span>
+          </div>
+          <div style="height:8px;border-radius:4px;background:rgba(0,0,0,0.06);overflow:hidden;"><div style="height:100%;width:100%;background:#141414;border-radius:4px;"></div></div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:7px;">
+            <span style="color:#6e6d66;">Expenses</span>
+            <span style="font-family:'Geist Mono',monospace;color:#D81E05;">{{ expText }}</span>
+          </div>
+          <div style="height:8px;border-radius:4px;background:rgba(0,0,0,0.06);overflow:hidden;"><div style="height:100%;width:{{ expBarPct }};background:#D81E05;border-radius:4px;"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6 month chart -->
+    <div style="margin-top:12px;background:#FFFFFF;border:1px solid rgba(0,0,0,0.12);border-radius:18px;padding:18px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+        <span style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:#9b998f;">6-month trend</span>
+        <div style="display:flex;gap:12px;font-size:11px;color:#6e6d66;">
+          <span style="display:flex;align-items:center;gap:5px;"><span style="width:8px;height:8px;border-radius:2px;background:#141414;"></span>In</span>
+          <span style="display:flex;align-items:center;gap:5px;"><span style="width:8px;height:8px;border-radius:2px;background:#D81E05;"></span>Out</span>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:4px;">
+        <sc-for list="{{ bars }}" as="b" hint-placeholder-count="6">
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;">
+            <div style="display:flex;gap:3px;align-items:flex-end;height:120px;">
+              <div style="width:8px;border-radius:3px 3px 0 0;background:#141414;height:{{ b.incH }}px;"></div>
+              <div style="width:8px;border-radius:3px 3px 0 0;background:#D81E05;height:{{ b.expH }}px;"></div>
+            </div>
+            <span style="font-family:'Geist Mono',monospace;font-size:10px;color:{{ b.lblColor }};">{{ b.label }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- transactions -->
+    <div style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:#9b998f;margin:22px 2px 10px;">Transactions</div>
+    <div style="background:#FFFFFF;border:1px solid rgba(0,0,0,0.12);border-radius:16px;overflow:hidden;">
+      <sc-for list="{{ txns }}" as="t" hint-placeholder-count="6">
+        <div style="display:flex;align-items:center;gap:13px;padding:13px 15px;border-bottom:1px solid rgba(0,0,0,0.05);">
+          <div style="width:36px;height:36px;border-radius:10px;background:{{ t.iconBg }};display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <span style="font-family:'Material Symbols Rounded';font-size:19px;color:{{ t.iconColor }};font-feature-settings:'liga';">{{ t.icon }}</span>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:14px;font-weight:500;">{{ t.name }}</div>
+            <div style="font-size:11.5px;color:#9b998f;margin-top:1px;">{{ t.cat }}</div>
+          </div>
+          <div style="font-family:'Geist Mono',monospace;font-size:14px;font-weight:500;color:{{ t.color }};">{{ t.amt }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ================= GYM ================= -->
+  <sc-if value="{{ isGym }}">
+  <div style="padding:22px 18px 28px;animation:ptFade .28s ease;">
+    <div style="font-size:24px;font-weight:600;letter-spacing:-0.02em;">Gym</div>
+
+    <!-- streak hero -->
+    <div style="margin-top:18px;background:linear-gradient(135deg,#F4F2EA 0%,#FFFFFF 55%);border:1px solid rgba(0,0,0,0.14);border-radius:20px;padding:20px;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="font-family:'Material Symbols Rounded';font-size:34px;color:#141414;font-feature-settings:'liga';">local_fire_department</span>
+        <div>
+          <div style="font-family:'Geist Mono',monospace;font-size:32px;font-weight:500;line-height:1;">{{ streakDays }}<span style="font-size:16px;color:#6e6d66;font-weight:400;"> days</span></div>
+          <div style="font-size:12.5px;color:#6e6d66;margin-top:3px;">Current streak · best yet</div>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:space-between;gap:6px;margin-top:18px;">
+        <sc-for list="{{ weekDots }}" as="w" hint-placeholder-count="7">
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;">
+            <div style="width:30px;height:30px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:{{ w.bg }};border:1.5px solid {{ w.border }};">
+              <span style="font-family:'Material Symbols Rounded';font-size:16px;color:{{ w.color }};font-feature-settings:'liga';">{{ w.icon }}</span>
+            </div>
+            <span style="font-size:10px;color:#9b998f;font-family:'Geist Mono',monospace;">{{ w.d }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+
+    <!-- bodyweight -->
+    <div style="margin-top:12px;background:#FFFFFF;border:1px solid rgba(0,0,0,0.12);border-radius:18px;padding:18px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+        <div>
+          <div style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:#9b998f;">Bodyweight</div>
+          <div style="font-family:'Geist Mono',monospace;font-size:30px;font-weight:500;margin-top:5px;">{{ bwCur }}<span style="font-size:15px;color:#6e6d66;font-weight:400;"> kg</span></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:4px;background:rgba(0,0,0,0.05);border-radius:8px;padding:5px 9px;">
+          <span style="font-family:'Material Symbols Rounded';font-size:15px;color:{{ bwChangeColor }};font-feature-settings:'liga';">trending_down</span>
+          <span style="font-family:'Geist Mono',monospace;font-size:12.5px;color:{{ bwChangeColor }};">{{ bwChange }}</span>
+        </div>
+      </div>
+      <svg viewBox="0 0 280 84" width="100%" height="84" preserveAspectRatio="none" style="margin-top:14px;display:block;">
+        <defs><linearGradient id="bwg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#141414" stop-opacity="0.28"></stop>
+          <stop offset="100%" stop-color="#141414" stop-opacity="0"></stop>
+        </linearGradient></defs>
+        <polygon points="{{ bwArea }}" fill="url(#bwg)"></polygon>
+        <polyline points="{{ bw }}" fill="none" stroke="#141414" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"></polyline>
+      </svg>
+      <div style="font-size:11px;color:#9b998f;margin-top:6px;font-family:'Geist Mono',monospace;">Last 8 weeks</div>
+    </div>
+
+    <!-- PRs -->
+    <div style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:#9b998f;margin:22px 2px 10px;">Personal records</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <sc-for list="{{ prs }}" as="p" hint-placeholder-count="4">
+        <div style="background:#FFFFFF;border:1px solid rgba(0,0,0,0.12);border-radius:16px;padding:15px;">
+          <div style="font-size:13px;color:#6e6d66;font-weight:500;">{{ p.lift }}</div>
+          <div style="font-family:'Geist Mono',monospace;font-size:24px;font-weight:500;margin-top:8px;">{{ p.val }}<span style="font-size:13px;color:#9b998f;font-weight:400;"> kg</span></div>
+          <div style="display:flex;align-items:center;gap:5px;margin-top:6px;">
+            <span style="font-family:'Geist Mono',monospace;font-size:11.5px;color:{{ p.deltaColor }};">{{ p.deltaText }}</span>
+            <span style="font-size:11px;color:#9b998f;">· {{ p.date }}</span>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <!-- recent workouts -->
+    <div style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:#9b998f;margin:22px 2px 10px;">Recent workouts</div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      <sc-for list="{{ workouts }}" as="wk" hint-placeholder-count="3">
+        <div style="display:flex;align-items:center;gap:13px;background:#FFFFFF;border:1px solid rgba(0,0,0,0.12);border-radius:14px;padding:13px 14px;">
+          <div style="width:38px;height:38px;border-radius:11px;background:rgba(0,0,0,0.06);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <span style="font-family:'Material Symbols Rounded';font-size:20px;color:#141414;font-feature-settings:'liga';">fitness_center</span>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:14.5px;font-weight:600;">{{ wk.name }}</div>
+            <div style="font-size:12px;color:#9b998f;margin-top:1px;">{{ wk.sets }} sets · {{ wk.vol }}</div>
+          </div>
+          <div style="font-size:12px;color:#6e6d66;font-family:'Geist Mono',monospace;">{{ wk.date }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ================= TRADES (list) ================= -->
+  <sc-if value="{{ isTrades }}">
+  <div style="padding:22px 18px 28px;animation:ptFade .28s ease;">
+    <div style="font-size:24px;font-weight:600;letter-spacing:-0.02em;">Trading journal</div>
+
+    <!-- stats -->
+    <div style="margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div style="background:#FFFFFF;border:1px solid rgba(0,0,0,0.12);border-radius:16px;padding:16px;">
+        <div style="font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#9b998f;">Net P&L</div>
+        <div style="font-family:'Geist Mono',monospace;font-size:24px;font-weight:500;margin-top:6px;color:{{ totalPnlColor }};">{{ totalPnlBig }}</div>
+      </div>
+      <div style="background:#FFFFFF;border:1px solid rgba(0,0,0,0.12);border-radius:16px;padding:16px;">
+        <div style="font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#9b998f;">Win rate</div>
+        <div style="font-family:'Geist Mono',monospace;font-size:24px;font-weight:500;margin-top:6px;">{{ winRateBig }}</div>
+      </div>
+      <div style="background:#FFFFFF;border:1px solid rgba(0,0,0,0.12);border-radius:16px;padding:16px;">
+        <div style="font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#9b998f;">Trades</div>
+        <div style="font-family:'Geist Mono',monospace;font-size:24px;font-weight:500;margin-top:6px;">{{ tradeCount }}</div>
+      </div>
+      <div style="background:#FFFFFF;border:1px solid rgba(0,0,0,0.12);border-radius:16px;padding:16px;">
+        <div style="font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#9b998f;">Avg R</div>
+        <div style="font-family:'Geist Mono',monospace;font-size:24px;font-weight:500;margin-top:6px;">{{ avgR }}</div>
+      </div>
+    </div>
+
+    <!-- filters -->
+    <div style="display:flex;gap:8px;margin-top:18px;">
+      <button onClick="{{ fAll }}" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px;font-weight:600;padding:8px 16px;border-radius:20px;cursor:pointer;background:{{ chipAll.bg }};color:{{ chipAll.color }};border:1px solid {{ chipAll.border }};">All</button>
+      <button onClick="{{ fWins }}" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px;font-weight:600;padding:8px 16px;border-radius:20px;cursor:pointer;background:{{ chipWins.bg }};color:{{ chipWins.color }};border:1px solid {{ chipWins.border }};">Wins</button>
+      <button onClick="{{ fLoss }}" style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px;font-weight:600;padding:8px 16px;border-radius:20px;cursor:pointer;background:{{ chipLoss.bg }};color:{{ chipLoss.color }};border:1px solid {{ chipLoss.border }};">Losses</button>
+    </div>
+
+    <!-- trade cards -->
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px;">
+      <sc-for list="{{ trades }}" as="t" hint-placeholder-count="5">
+        <button onClick="{{ t.onOpen }}" style="text-align:left;width:100%;background:#FFFFFF;border:1px solid rgba(0,0,0,0.12);border-radius:16px;padding:15px;cursor:pointer;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;color:#141414;">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <div style="display:flex;align-items:center;gap:9px;">
+              <span style="font-family:'Geist Mono',monospace;font-size:16px;font-weight:600;letter-spacing:0.02em;">{{ t.ticker }}</span>
+              <span style="font-size:10.5px;font-weight:700;letter-spacing:0.06em;padding:3px 7px;border-radius:6px;color:{{ t.dirColor }};background:{{ t.dirBg }};">{{ t.dir }}</span>
+            </div>
+            <span style="font-family:'Geist Mono',monospace;font-size:16px;font-weight:600;color:{{ t.pnlColor }};">{{ t.pnl }}</span>
+          </div>
+          <div style="font-size:12.5px;color:#6e6d66;margin-top:9px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">{{ t.setup }}</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <span style="font-size:11px;color:#9b998f;font-family:'Geist Mono',monospace;">{{ t.date }}</span>
+              <span style="font-size:11px;font-weight:600;padding:2px 8px;border-radius:6px;color:{{ t.emoColor }};background:rgba(0,0,0,0.05);">{{ t.emotion }}</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span style="font-size:10px;color:#9b998f;font-family:'Geist Mono',monospace;">DISC</span>
+              <div style="display:flex;gap:3px;">
+                <sc-for list="{{ t.discDots }}" as="d" hint-placeholder-count="5">
+                  <span style="width:13px;height:4px;border-radius:2px;background:{{ d.color }};"></span>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </button>
+      </sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ================= TRADE DETAIL ================= -->
+  <sc-if value="{{ showDetail }}">
+  <div style="padding:18px 18px 28px;animation:ptFade .24s ease;">
+    <button onClick="{{ goBack }}" style="display:flex;align-items:center;gap:6px;background:none;border:none;color:#6e6d66;cursor:pointer;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13.5px;padding:4px 0;">
+      <span style="font-family:'Material Symbols Rounded';font-size:20px;font-feature-settings:'liga';">arrow_back</span> Journal
+    </button>
+
+    <div style="display:flex;align-items:center;gap:11px;margin-top:14px;">
+      <span style="font-family:'Geist Mono',monospace;font-size:28px;font-weight:600;letter-spacing:0.02em;">{{ td.ticker }}</span>
+      <span style="font-size:12px;font-weight:700;letter-spacing:0.06em;padding:4px 9px;border-radius:7px;color:{{ td.dirColor }};background:rgba(0,0,0,0.06);">{{ td.dir }}</span>
+      <span style="margin-left:auto;font-size:12px;color:#9b998f;font-family:'Geist Mono',monospace;">{{ td.date }}</span>
+    </div>
+
+    <div style="font-family:'Geist Mono',monospace;font-size:44px;font-weight:500;letter-spacing:-0.02em;color:{{ td.pnlColor }};margin-top:10px;">{{ td.pnl }}</div>
+
+    <!-- trade params -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px;">
+      <div style="background:#FFFFFF;border:1px solid rgba(0,0,0,0.12);border-radius:14px;padding:14px;">
+        <div style="font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#9b998f;font-family:'Geist Mono',monospace;">Entry</div>
+        <div style="font-family:'Geist Mono',monospace;font-size:18px;font-weight:500;margin-top:5px;">{{ td.entry }}</div>
+      </div>
+      <div style="background:#FFFFFF;border:1px solid rgba(0,0,0,0.12);border-radius:14px;padding:14px;">
+        <div style="font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#9b998f;font-family:'Geist Mono',monospace;">Exit</div>
+        <div style="font-family:'Geist Mono',monospace;font-size:18px;font-weight:500;margin-top:5px;">{{ td.exit }}</div>
+      </div>
+      <div style="background:#FFFFFF;border:1px solid rgba(0,0,0,0.12);border-radius:14px;padding:14px;">
+        <div style="font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#9b998f;font-family:'Geist Mono',monospace;">Size</div>
+        <div style="font-family:'Geist Mono',monospace;font-size:18px;font-weight:500;margin-top:5px;">{{ td.size }}</div>
+      </div>
+      <div style="background:#FFFFFF;border:1px solid rgba(0,0,0,0.12);border-radius:14px;padding:14px;">
+        <div style="font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;color:#9b998f;font-family:'Geist Mono',monospace;">R multiple</div>
+        <div style="font-family:'Geist Mono',monospace;font-size:18px;font-weight:500;margin-top:5px;color:{{ td.pnlColor }};">{{ td.rr }}</div>
+      </div>
+    </div>
+
+    <!-- screenshot placeholder -->
+    <div style="margin-top:16px;border-radius:16px;height:170px;border:1px solid rgba(0,0,0,0.14);background-image:repeating-linear-gradient(135deg,#E7E5DD 0 12px,#DEDCD3 12px 24px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;">
+      <span style="font-family:'Material Symbols Rounded';font-size:30px;color:#b8b6ac;font-feature-settings:'liga';">image</span>
+      <span style="font-family:'Geist Mono',monospace;font-size:11px;color:#9b998f;letter-spacing:0.04em;">chart screenshot</span>
+    </div>
+
+    <!-- setup notes -->
+    <div style="margin-top:16px;background:#FFFFFF;border:1px solid rgba(0,0,0,0.12);border-radius:16px;padding:16px;">
+      <div style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:#9b998f;">Setup & notes</div>
+      <div style="font-size:14px;line-height:1.6;color:#2c2c28;margin-top:10px;">{{ td.setup }}</div>
+    </div>
+
+    <!-- psychology -->
+    <div style="margin-top:12px;background:#FFFFFF;border:1px solid rgba(0,0,0,0.12);border-radius:16px;padding:16px;display:flex;align-items:center;justify-content:space-between;gap:16px;">
+      <div>
+        <div style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:#9b998f;">Emotion</div>
+        <div style="font-size:16px;font-weight:600;margin-top:8px;color:{{ td.emoColor }};">{{ td.emotion }}</div>
+      </div>
+      <div style="width:1px;align-self:stretch;background:rgba(0,0,0,0.14);"></div>
+      <div style="flex:1;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-family:'Geist Mono',monospace;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:#9b998f;">Discipline</span>
+          <span style="font-family:'Geist Mono',monospace;font-size:12px;color:#6e6d66;">{{ td.discText }}</span>
+        </div>
+        <div style="display:flex;gap:5px;margin-top:10px;">
+          <sc-for list="{{ td.discDots }}" as="d" hint-placeholder-count="5">
+            <span style="flex:1;height:7px;border-radius:3px;background:{{ d.color }};"></span>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  </div>
+
+  <!-- ================= BOTTOM NAV ================= -->
+  <div style="flex-shrink:0;display:flex;background:#F2F1EB;border-top:1px solid rgba(0,0,0,0.14);padding:8px 6px 6px;">
+    <button onClick="{{ goHome }}" style="flex:1;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;padding:4px 0;">
+      <div style="display:flex;align-items:center;justify-content:center;height:30px;width:62px;border-radius:16px;background:{{ bgHome }};transition:background .2s;">
+        <span style="font-family:'Material Symbols Rounded';font-size:23px;color:{{ cHome }};font-feature-settings:'liga';">grid_view</span>
+      </div>
+      <span style="font-size:11px;font-weight:600;color:{{ cHome }};font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Home</span>
+    </button>
+    <button onClick="{{ goMoney }}" style="flex:1;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;padding:4px 0;">
+      <div style="display:flex;align-items:center;justify-content:center;height:30px;width:62px;border-radius:16px;background:{{ bgMoney }};transition:background .2s;">
+        <span style="font-family:'Material Symbols Rounded';font-size:23px;color:{{ cMoney }};font-feature-settings:'liga';">account_balance_wallet</span>
+      </div>
+      <span style="font-size:11px;font-weight:600;color:{{ cMoney }};font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Money</span>
+    </button>
+    <button onClick="{{ goGym }}" style="flex:1;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;padding:4px 0;">
+      <div style="display:flex;align-items:center;justify-content:center;height:30px;width:62px;border-radius:16px;background:{{ bgGym }};transition:background .2s;">
+        <span style="font-family:'Material Symbols Rounded';font-size:23px;color:{{ cGym }};font-feature-settings:'liga';">exercise</span>
+      </div>
+      <span style="font-size:11px;font-weight:600;color:{{ cGym }};font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Gym</span>
+    </button>
+    <button onClick="{{ goTrades }}" style="flex:1;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;padding:4px 0;">
+      <div style="display:flex;align-items:center;justify-content:center;height:30px;width:62px;border-radius:16px;background:{{ bgTrades }};transition:background .2s;">
+        <span style="font-family:'Material Symbols Rounded';font-size:23px;color:{{ cTrades }};font-feature-settings:'liga';">candlestick_chart</span>
+      </div>
+      <span style="font-size:11px;font-weight:600;color:{{ cTrades }};font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Trades</span>
+    </button>
+  </div>
+
+</div>
+</x-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:520,&quot;height&quot;:980},&quot;userName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Paski&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  state = { tab: 'home', selectedTrade: null, month: 5, filter: 'all' };
+
+  COL = {
+    blue:'#141414', amber:'#141414', green:'#141414', red:'#D81E05',
+    txt:'#141414', sub:'#6e6d66', muted:'#9b998f',
+  };
+
+  MONTHS = [
+    {label:'Jan', inc:8200, exp:5400},
+    {label:'Feb', inc:7900, exp:6100},
+    {label:'Mar', inc:8600, exp:5200},
+    {label:'Apr', inc:9100, exp:7300},
+    {label:'May', inc:8800, exp:5900},
+    {label:'Jun', inc:9400, exp:6250},
+  ];
+
+  TXNS = [
+    {name:'Salary', cat:'Income', amt:6800, icon:'work'},
+    {name:'Freelance project', cat:'Income', amt:2600, icon:'bolt'},
+    {name:'Rent', cat:'Housing', amt:-1800, icon:'home'},
+    {name:'Groceries', cat:'Food', amt:-420, icon:'shopping_cart'},
+    {name:'Dining out', cat:'Food', amt:-180, icon:'restaurant'},
+    {name:'Transport', cat:'Transport', amt:-120, icon:'directions_car'},
+    {name:'Gym membership', cat:'Health', amt:-45, icon:'fitness_center'},
+  ];
+
+  BW = [82.4,82.0,81.6,81.5,80.9,80.6,80.3,80.1];
+
+  PRS = [
+    {lift:'Bench Press', val:102.5, delta:2.5, date:'Jun 8'},
+    {lift:'Squat', val:140, delta:5, date:'Jun 5'},
+    {lift:'Deadlift', val:180, delta:0, date:'May 28'},
+    {lift:'Overhead Press', val:65, delta:2.5, date:'Jun 2'},
+  ];
+
+  WORKOUTS = [
+    {name:'Push Day', date:'Today', vol:'8.2k kg', sets:18},
+    {name:'Pull Day', date:'Yesterday', vol:'9.1k kg', sets:20},
+    {name:'Leg Day', date:'2d ago', vol:'12.4k kg', sets:22},
+  ];
+
+  WEEK = [
+    {d:'M',s:'done'},{d:'T',s:'done'},{d:'W',s:'rest'},{d:'T',s:'done'},
+    {d:'F',s:'done'},{d:'S',s:'done'},{d:'S',s:'today'}
+  ];
+
+  TRADES = [
+    {id:1, ticker:'NQ', dir:'long', pnl:640, date:'Jun 10', emotion:'Focused', disc:4, entry:'18,420', exit:'18,532', size:'2 contracts', rr:'+2.3R', setup:'Trend continuation off the 9 EMA after the London open. Scaled in on the pullback and held through the push into target. Patience paid off here.'},
+    {id:2, ticker:'ES', dir:'long', pnl:420, date:'Jun 12', emotion:'Calm', disc:5, entry:'5,310', exit:'5,328', size:'3 contracts', rr:'+1.8R', setup:'Breakout retest at the prior-day high. Clean market structure — waited for the confirmation candle before entry and let the runner work.'},
+    {id:3, ticker:'GOLD', dir:'long', pnl:310, date:'Jun 5', emotion:'Calm', disc:5, entry:'2,318', exit:'2,334', size:'1 lot', rr:'+2.0R', setup:'4H demand-zone bounce. Risk defined just below the zone, target at the prior swing high. Textbook execution.'},
+    {id:4, ticker:'EURUSD', dir:'long', pnl:90, date:'Jun 9', emotion:'Focused', disc:3, entry:'1.0842', exit:'1.0861', size:'1 lot', rr:'+0.9R', setup:'London session range break. Entry was slightly late so I trimmed the target — took partial and moved to break-even.'},
+    {id:5, ticker:'AAPL', dir:'long', pnl:-220, date:'Jun 6', emotion:'FOMO', disc:2, entry:'214.20', exit:'211.10', size:'80 shares', rr:'-1.0R', setup:'Chased the gap-up with no real setup. Entered late, stopped on the fade. Note to self: stop chasing the open.'},
+    {id:6, ticker:'BTC', dir:'short', pnl:-180, date:'Jun 11', emotion:'Frustrated', disc:2, entry:'71,200', exit:'71,850', size:'0.1 BTC', rr:'-0.8R', setup:'Counter-trend short with no confirmation — a revenge trade right after the AAPL loss. Broke my own rules.'},
+  ];
+
+  emoColor(e){ return ({Calm:this.COL.green, Focused:this.COL.blue, FOMO:this.COL.red, Frustrated:this.COL.red})[e] || this.COL.sub; }
+  fmt(n){ return (n<0?'-':'')+'$'+Math.abs(n).toLocaleString('en-US'); }
+  fmtSigned(n){ return (n<0?'-':'+')+'$'+Math.abs(n).toLocaleString('en-US'); }
+
+  poly(arr,w,h){
+    const min=Math.min(...arr), max=Math.max(...arr), span=(max-min)||1, padY=h*0.14;
+    return arr.map((v,i)=>{
+      const x=(i/(arr.length-1))*w;
+      const y=padY+(1-(v-min)/span)*(h-2*padY);
+      return x.toFixed(1)+','+y.toFixed(1);
+    }).join(' ');
+  }
+  polyArea(arr,w,h){ return '0,'+h+' '+this.poly(arr,w,h)+' '+w+','+h; }
+  dots(n){
+    const col = n>=4?this.COL.green : n===3?this.COL.amber : this.COL.red;
+    return [1,2,3,4,5].map(i=>({ color: i<=n?col:'rgba(0,0,0,0.16)' }));
+  }
+
+  renderVals(){
+    const C=this.COL, st=this.state;
+    const navColor = t => st.tab===t ? C.blue : C.muted;
+    const navBg = t => st.tab===t ? 'rgba(0,0,0,0.08)' : 'transparent';
+
+    // money
+    const cm = this.MONTHS[st.month];
+    const net = cm.inc - cm.exp;
+    const maxV = Math.max(...this.MONTHS.map(m=>Math.max(m.inc,m.exp)));
+    const chartH = 120;
+    const bars = this.MONTHS.map((m,i)=>({
+      label:m.label,
+      incH: Math.max(3, Math.round(m.inc/maxV*chartH)),
+      expH: Math.max(3, Math.round(m.exp/maxV*chartH)),
+      lblColor: i===st.month ? C.txt : C.muted,
+    }));
+    const txns = this.TXNS.map(t=>({
+      name:t.name, cat:t.cat, amt:this.fmtSigned(t.amt), icon:t.icon,
+      color: t.amt<0 ? C.txt : C.green,
+      iconColor: t.amt<0 ? C.sub : C.green,
+      iconBg: t.amt<0 ? 'rgba(0,0,0,0.06)' : 'rgba(0,0,0,0.06)',
+    }));
+
+    // home
+    const nets = this.MONTHS.map(m=>m.inc-m.exp);
+    const weekDots = this.WEEK.map(w=>({
+      d:w.d,
+      icon: w.s==='done' ? 'check' : (w.s==='today' ? 'today' : 'remove'),
+      bg: w.s==='done' ? C.green : 'rgba(0,0,0,0.05)',
+      border: w.s==='today' ? C.blue : 'transparent',
+      color: w.s==='done' ? '#FAF9F5' : (w.s==='today' ? C.blue : C.muted),
+    }));
+    const feed = [
+      {icon:'trending_up', title:'NQ · Long', sub:'Trade closed · Focused', right:'+$640', rightColor:C.green, accent:C.blue, accentBg:'rgba(0,0,0,0.06)'},
+      {icon:'exercise', title:'Push Day', sub:'18 sets · 8.2k kg', right:'Today', rightColor:C.sub, accent:C.amber, accentBg:'rgba(0,0,0,0.06)'},
+      {icon:'shopping_cart', title:'Groceries', sub:'Food', right:'-$420', rightColor:C.txt, accent:C.sub, accentBg:'rgba(0,0,0,0.06)'},
+    ];
+
+    // gym
+    const bwCur = this.BW[this.BW.length-1];
+    const bwChange = +(this.BW[this.BW.length-1]-this.BW[0]).toFixed(1);
+    const prs = this.PRS.map(p=>({
+      lift:p.lift, val:p.val, date:p.date,
+      deltaText: p.delta>0 ? ('+'+p.delta+' kg') : 'no change',
+      deltaColor: p.delta>0 ? C.green : C.muted,
+    }));
+
+    // trades
+    const wins = this.TRADES.filter(t=>t.pnl>0);
+    const winRate = Math.round(wins.length/this.TRADES.length*100);
+    const totalPnl = this.TRADES.reduce((a,t)=>a+t.pnl,0);
+    let list = this.TRADES;
+    if(st.filter==='wins') list = wins;
+    if(st.filter==='losses') list = this.TRADES.filter(t=>t.pnl<0);
+    const trades = list.map(t=>({
+      id:t.id, ticker:t.ticker, dir:t.dir.toUpperCase(),
+      dirColor: t.dir==='long'?C.green:C.red,
+      dirBg: t.dir==='long'?'rgba(0,0,0,0.06)':'rgba(216,30,5,0.10)',
+      pnl:this.fmtSigned(t.pnl), pnlColor: t.pnl>0?C.green:C.red,
+      date:t.date, emotion:t.emotion, emoColor:this.emoColor(t.emotion),
+      setup:t.setup, discDots:this.dots(t.disc),
+      onOpen: ()=>this.setState({selectedTrade:t.id}),
+    }));
+    const chip = f => ({
+      color: st.filter===f ? '#FAF9F5' : C.sub,
+      bg: st.filter===f ? C.txt : 'transparent',
+      border: st.filter===f ? C.txt : 'rgba(0,0,0,0.22)',
+    });
+
+    const sel = this.TRADES.find(t=>t.id===st.selectedTrade) || this.TRADES[0];
+    const td = {
+      ticker:sel.ticker, dir:sel.dir.toUpperCase(),
+      dirColor: sel.dir==='long'?C.green:C.red,
+      pnl:this.fmtSigned(sel.pnl), pnlColor: sel.pnl>0?C.green:C.red,
+      date:sel.date, entry:sel.entry, exit:sel.exit, size:sel.size, rr:sel.rr,
+      setup:sel.setup, emotion:sel.emotion, emoColor:this.emoColor(sel.emotion),
+      discDots:this.dots(sel.disc), discText: sel.disc+'/5',
+    };
+
+    const uname = (this.props.userName || '').trim();
+
+    return {
+      isHome: st.tab==='home', isMoney: st.tab==='money', isGym: st.tab==='gym',
+      isTrades: st.tab==='trades' && !st.selectedTrade,
+      showDetail: st.tab==='trades' && !!st.selectedTrade,
+      goHome:()=>this.setState({tab:'home',selectedTrade:null}),
+      goMoney:()=>this.setState({tab:'money',selectedTrade:null}),
+      goGym:()=>this.setState({tab:'gym',selectedTrade:null}),
+      goTrades:()=>this.setState({tab:'trades',selectedTrade:null}),
+      goBack:()=>this.setState({selectedTrade:null}),
+      cHome:navColor('home'), bgHome:navBg('home'),
+      cMoney:navColor('money'), bgMoney:navBg('money'),
+      cGym:navColor('gym'), bgGym:navBg('gym'),
+      cTrades:navColor('trades'), bgTrades:navBg('trades'),
+      greetSep: uname ? ', ' : '', userNameOut: uname,
+
+      // money
+      monthLabel: cm.label+' 2026',
+      netText:this.fmtSigned(net), netColor: net>=0?C.green:C.red,
+      incText:this.fmt(cm.inc), expText:this.fmt(cm.exp),
+      expBarPct: Math.round(cm.exp/cm.inc*100)+'%',
+      bars, txns,
+      prevMonth:()=>this.setState(s=>({month:Math.max(0,s.month-1)})),
+      nextMonth:()=>this.setState(s=>({month:Math.min(this.MONTHS.length-1,s.month+1)})),
+
+      // home
+      spark:this.poly(nets,120,40),
+      netHome:this.fmtSigned(net), netHomeColor: net>=0?C.green:C.red,
+      streakDays:12, weekDots, feed,
+      winRateText: winRate+'%',
+      tradePnlText:this.fmtSigned(totalPnl), tradePnlColor: totalPnl>=0?C.green:C.red,
+
+      // gym
+      bw:this.poly(this.BW,280,84), bwArea:this.polyArea(this.BW,280,84),
+      bwCur:bwCur.toFixed(1), bwChange:(bwChange>0?'+':'')+bwChange+' kg',
+      bwChangeColor: bwChange<0?C.green:C.amber,
+      prs, workouts:this.WORKOUTS,
+
+      // trades
+      winRateBig: winRate+'%', totalPnlBig:this.fmtSigned(totalPnl),
+      totalPnlColor: totalPnl>=0?C.green:C.red,
+      tradeCount:this.TRADES.length, avgR:'1.4R',
+      trades, chipAll:chip('all'), chipWins:chip('wins'), chipLoss:chip('losses'),
+      fAll:()=>this.setState({filter:'all'}), fWins:()=>this.setState({filter:'wins'}), fLoss:()=>this.setState({filter:'losses'}),
+      td,
+    };
+  }
+}
+</script>
+</body>
+</html>
