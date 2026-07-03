@@ -149,6 +149,7 @@ const MOCK_TRANSACTIONS: Transaction[] = [
   { id: '4', date: '2026-06-12', name: 'Gym membership', category: 'fitness', amount: -40, currency: 'EUR', amountUsd: -46 },
   { id: '5', date: '2026-06-14', name: 'Electricity', category: 'electricity', amount: -80, currency: 'EUR', amountUsd: -93 },
   { id: '6', date: '2026-06-27', name: 'Car repair', category: 'transport', amount: -600, currency: 'EUR', amountUsd: -698 },
+  { id: '7', date: '2026-07-03', name: 'Shoes & clothes', category: 'other', amount: -650, currency: 'BGN', amountUsd: -386 },
 ];
 
 const MOCK_WORKOUTS: WorkoutSession[] = [
